@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mori — Posts</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">mori<span>.sh</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="active">posts</a>
+    <a href="topics.html">topics</a>
+    <a href="about.html">about</a>
+    <a href="contact.html">contact</a>
+  </div>
+</nav>
+
+<main class="page">
+
+  <p class="eyebrow">// posts</p>
+  <h1 class="headline">Writing &<br>Hacking Videos</h1>
+  <p class="headline-sub">
+    Writeups, walkthroughs, and notes from the field. Everything here is honest —
+    published when I actually have something worth sharing.
+  </p>
+
+  <!-- POST FILTERS -->
+  <div style="display:flex;gap:8px;margin-bottom:32px;flex-wrap:wrap;">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="writeup">Writeups</button>
+    <button class="filter-btn" data-filter="video">Videos</button>
+    <button class="filter-btn" data-filter="notes">Notes</button>
+  </div>
+
+  <div class="post-list" id="post-list">
+    <!-- Posts rendered by JS -->
+  </div>
+
+  <div class="empty" id="empty-state" style="display:none;">
+    no posts yet — working on it.
+  </div>
+
+</main>
+
+<footer>
+  <span class="footer-name">mori</span>
+  <span class="footer-note">updated as things happen</span>
+</footer>
+
+<style>
+  .filter-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    background: none;
+    border: 0.5px solid var(--border);
+    border-radius: 5px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--border2); color: var(--text2); }
+  .filter-btn.active { color: var(--text); border-color: var(--border2); background: var(--bg2); }
+</style>
+
+<script>
+  /* ── Add your posts here ── */
+  const POSTS = [
+    /*
+    {
+      date: 'Apr 2026',
+      tag: 'writeup',
+      title: 'Your First Writeup Title Here',
+      url: '#'
+    },
+    {
+      date: 'Apr 2026',
+      tag: 'video',
+      title: 'Your First Video Title Here',
+      url: '#'
+    },
+    */
+  ];
+
+  const list = document.getElementById('post-list');
+  const empty = document.getElementById('empty-state');
+  const btns = document.querySelectorAll('.filter-btn');
+
+  function render(filter) {
+    const filtered = filter === 'all' ? POSTS : POSTS.filter(p => p.tag === filter);
+    list.innerHTML = '';
+    if (filtered.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    filtered.forEach(p => {
+      list.innerHTML += `
+        <a href="${p.url}" class="post-item">
+          <span class="post-date">${p.date}</span>
+          <span class="post-tag">${p.tag}</span>
+          <span class="post-title">${p.title}</span>
+        </a>`;
+    });
+  }
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(btn.dataset.filter);
+    });
+  });
+
+  render('all');
+</script>
+
+</body>
+</html>

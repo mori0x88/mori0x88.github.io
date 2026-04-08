@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mori — About</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">mori<span>.sh</span></a>
+  <div class="nav-links">
+    <a href="index.html">posts</a>
+    <a href="topics.html">topics</a>
+    <a href="about.html" class="active">about</a>
+    <a href="contact.html">contact</a>
+  </div>
+</nav>
+
+<main class="page">
+
+  <p class="eyebrow">// about me</p>
+  <h1 class="headline">mori</h1>
+  <p style="font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:32px;letter-spacing:0.06em;">
+    security researcher · day zero
+  </p>
+
+  <div class="about-bio">
+    I'm starting from scratch — no bounties, no certifications, no experience on paper yet.
+    This page exists to track the journey honestly, not to claim achievements I haven't earned.
+    I'm focused on web security and manual testing: logic bugs, broken access control, IDOR.
+    AI red teaming is where I'm heading next.
+    <br><br>
+    Come back later and watch the numbers move.
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- BOUNTY GOAL -->
+  <div class="two-col">
+    <div>
+      <div class="sec-title">// bounty goal</div>
+      <div class="bounty-block">
+        <div class="bounty-amount" id="bounty-display">$0</div>
+        <div class="bounty-target">goal: $100,000</div>
+        <div class="bounty-track"><div class="bounty-fill" id="bounty-fill"></div></div>
+        <div class="bounty-meta">
+          <span id="bounty-pct">0%</span> &nbsp;·&nbsp;
+          <span id="bounty-reports">0 valid reports</span>
+        </div>
+      </div>
+
+      <div class="sec-title">// certifications</div>
+
+      <div class="bar-group">
+        <div class="bar-head">
+          <span class="bar-name">OSWE</span>
+          <span class="bar-pct" id="pct-oswe">0%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="bar-oswe"></div></div>
+      </div>
+
+      <div class="bar-group">
+        <div class="bar-head">
+          <span class="bar-name">OSCP</span>
+          <span class="bar-pct" id="pct-oscp">0%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="bar-oscp"></div></div>
+      </div>
+
+      <div class="bar-group">
+        <div class="bar-head">
+          <span class="bar-name">OSAI</span>
+          <span class="bar-pct" id="pct-osai">0%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="bar-osai"></div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title">// skills in progress</div>
+
+      <div class="bar-group">
+        <div class="bar-head">
+          <span class="bar-name">Web security</span>
+          <span class="bar-pct" id="pct-web">0%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="bar-web"></div></div>
+      </div>
+
+      <div class="bar-group">
+        <div class="bar-head">
+          <span class="bar-name">Source code review</span>
+          <span class="bar-pct" id="pct-code">0%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="bar-code"></div></div>
+      </div>
+
+      <div class="bar-group">
+        <div class="bar-head">
+          <span class="bar-name">Recon & automation</span>
+          <span class="bar-pct" id="pct-recon">0%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="bar-recon"></div></div>
+      </div>
+
+      <div class="bar-group">
+        <div class="bar-head">
+          <span class="bar-name">AI red teaming</span>
+          <span class="bar-pct" id="pct-ai">0%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="bar-ai"></div></div>
+      </div>
+
+      <div class="bar-group">
+        <div class="bar-head">
+          <span class="bar-name">YouTube / content</span>
+          <span class="bar-pct" id="pct-yt">0%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="bar-yt"></div></div>
+      </div>
+
+      <div style="height:32px"></div>
+      <div class="sec-title">// goals</div>
+
+      <div class="goal-item">
+        <div class="goal-dot" id="dot-bounty1"></div>
+        <div>
+          <div class="goal-name">First valid bounty</div>
+          <div class="goal-note" id="note-bounty1">not yet</div>
+        </div>
+      </div>
+
+      <div class="goal-item">
+        <div class="goal-dot" id="dot-10k"></div>
+        <div>
+          <div class="goal-name">$10,000 total bounties</div>
+          <div class="goal-note" id="note-10k">in progress</div>
+        </div>
+      </div>
+
+      <div class="goal-item">
+        <div class="goal-dot" id="dot-100k"></div>
+        <div>
+          <div class="goal-name">$100,000 total bounties</div>
+          <div class="goal-note" id="note-100k">the big one</div>
+        </div>
+      </div>
+
+      <div class="goal-item">
+        <div class="goal-dot" id="dot-oswe"></div>
+        <div>
+          <div class="goal-name">OSWE certification</div>
+          <div class="goal-note" id="note-oswe">planned</div>
+        </div>
+      </div>
+
+      <div class="goal-item">
+        <div class="goal-dot" id="dot-yt"></div>
+        <div>
+          <div class="goal-name">YouTube channel launch</div>
+          <div class="goal-note" id="note-yt">one day</div>
+        </div>
+      </div>
+
+      <div class="goal-item">
+        <div class="goal-dot" id="dot-ft"></div>
+        <div>
+          <div class="goal-name">Full-time bug bounty</div>
+          <div class="goal-note" id="note-ft">the end goal</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div style="font-size:13px;color:var(--text3);line-height:1.8;">
+    Outside security: anime, manga, gaming.
+  </div>
+
+</main>
+
+<footer>
+  <span class="footer-name">mori</span>
+  <span class="footer-note">updated as things happen</span>
+</footer>
+
+<script>
+  /*
+  ═══════════════════════════════════════════
+    UPDATE YOUR PROGRESS HERE
+    Edit the numbers below when you level up
+  ═══════════════════════════════════════════
+
+  bountyUSD    → total bounties earned in dollars (e.g. 1500)
+  bountyCount  → number of valid reports (e.g. 3)
+  oswe/oscp/osai → 0-100, how far through the course
+  web/code/recon/ai/yt → 0-100, skill self-assessment
+  goals        → set true when achieved
+  */
+
+  const DATA = {
+    bountyUSD:    0,
+    bountyTarget: 100000,
+    bountyCount:  0,
+
+    oswe:  0,
+    oscp:  0,
+    osai:  0,
+
+    web:   0,
+    code:  0,
+    recon: 0,
+    ai:    0,
+    yt:    0,
+
+    goals: {
+      bounty1: false,
+      tenk:    false,
+      hundredk:false,
+      oswe:    false,
+      youtube: false,
+      fulltime:false,
+    }
+  };
+
+  /* ── render ── */
+  function pct(val, max) { return Math.min(100, Math.round((val / max) * 100)); }
+  function fmt(n) { return '$' + n.toLocaleString(); }
+
+  function setBar(id, value) {
+    const el = document.getElementById('bar-' + id);
+    const pEl = document.getElementById('pct-' + id);
+    if (el) { el.style.width = value + '%'; }
+    if (pEl) { pEl.textContent = value + '%'; }
+  }
+
+  function setGoal(key, done, note) {
+    const dot = document.getElementById('dot-' + key);
+    const n = document.getElementById('note-' + key);
+    if (dot && done) dot.classList.add('done');
+    if (n && note) n.textContent = note;
+  }
+
+  const bp = pct(DATA.bountyUSD, DATA.bountyTarget);
+  document.getElementById('bounty-display').textContent = fmt(DATA.bountyUSD);
+  document.getElementById('bounty-fill').style.width = bp + '%';
+  document.getElementById('bounty-pct').textContent = bp + '%';
+  document.getElementById('bounty-reports').textContent = DATA.bountyCount + ' valid report' + (DATA.bountyCount !== 1 ? 's' : '');
+
+  setBar('oswe',  DATA.oswe);
+  setBar('oscp',  DATA.oscp);
+  setBar('osai',  DATA.osai);
+  setBar('web',   DATA.web);
+  setBar('code',  DATA.code);
+  setBar('recon', DATA.recon);
+  setBar('ai',    DATA.ai);
+  setBar('yt',    DATA.yt);
+
+  if (DATA.goals.bounty1)   setGoal('bounty1', true, 'done');
+  if (DATA.goals.tenk)      setGoal('10k',     true, 'reached');
+  if (DATA.goals.hundredk)  setGoal('100k',    true, 'reached');
+  if (DATA.goals.oswe)      setGoal('oswe',    true, 'certified');
+  if (DATA.goals.youtube)   setGoal('yt',      true, 'launched');
+  if (DATA.goals.fulltime)  setGoal('ft',      true, 'achieved');
+</script>
+
+</body>
+</html>

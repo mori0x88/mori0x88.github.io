@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mori — Topics</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">mori<span>.sh</span></a>
+  <div class="nav-links">
+    <a href="index.html">posts</a>
+    <a href="topics.html" class="active">topics</a>
+    <a href="about.html">about</a>
+    <a href="contact.html">contact</a>
+  </div>
+</nav>
+
+<main class="page">
+
+  <p class="eyebrow">// topics</p>
+  <h1 class="headline">Browse by<br>Category</h1>
+  <p class="headline-sub">
+    Click a topic to filter posts and videos. Counts update as I publish.
+  </p>
+
+  <div class="topic-grid">
+    <div class="topic-card" onclick="filterTopic('idor')">
+      <div class="topic-tag">// vuln</div>
+      <div class="topic-name">IDOR</div>
+      <div class="topic-count" id="count-idor">0 posts</div>
+    </div>
+    <div class="topic-card" onclick="filterTopic('ssrf')">
+      <div class="topic-tag">// vuln</div>
+      <div class="topic-name">SSRF</div>
+      <div class="topic-count" id="count-ssrf">0 posts</div>
+    </div>
+    <div class="topic-card" onclick="filterTopic('xss')">
+      <div class="topic-tag">// vuln</div>
+      <div class="topic-name">XSS</div>
+      <div class="topic-count" id="count-xss">0 posts</div>
+    </div>
+    <div class="topic-card" onclick="filterTopic('logic')">
+      <div class="topic-tag">// vuln</div>
+      <div class="topic-name">Logic Bugs</div>
+      <div class="topic-count" id="count-logic">0 posts</div>
+    </div>
+    <div class="topic-card" onclick="filterTopic('auth')">
+      <div class="topic-tag">// vuln</div>
+      <div class="topic-name">Auth Bypass</div>
+      <div class="topic-count" id="count-auth">0 posts</div>
+    </div>
+    <div class="topic-card" onclick="filterTopic('graphql')">
+      <div class="topic-tag">// tech</div>
+      <div class="topic-name">GraphQL</div>
+      <div class="topic-count" id="count-graphql">0 posts</div>
+    </div>
+    <div class="topic-card" onclick="filterTopic('recon')">
+      <div class="topic-tag">// method</div>
+      <div class="topic-name">Recon</div>
+      <div class="topic-count" id="count-recon">0 posts</div>
+    </div>
+    <div class="topic-card" onclick="filterTopic('ai')">
+      <div class="topic-tag">// emerging</div>
+      <div class="topic-name">AI Security</div>
+      <div class="topic-count" id="count-ai">0 posts</div>
+    </div>
+    <div class="topic-card" onclick="filterTopic('video')">
+      <div class="topic-tag">// format</div>
+      <div class="topic-name">Hacking Videos</div>
+      <div class="topic-count" id="count-video">0 videos</div>
+    </div>
+    <div class="topic-card" onclick="filterTopic('writeup')">
+      <div class="topic-tag">// format</div>
+      <div class="topic-name">Writeups</div>
+      <div class="topic-count" id="count-writeup">0 writeups</div>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div id="filter-label" style="font-family:var(--mono);font-size:10px;color:var(--text4);letter-spacing:.1em;margin-bottom:20px;display:none;">
+    // showing: <span id="active-topic"></span>
+    <button onclick="clearFilter()" style="background:none;border:none;font-family:var(--mono);font-size:10px;color:var(--text3);cursor:pointer;margin-left:12px;text-decoration:underline;">clear</button>
+  </div>
+
+  <div class="post-list" id="post-list"></div>
+  <div class="empty" id="empty-state">no posts yet — working on it.</div>
+
+</main>
+
+<footer>
+  <span class="footer-name">mori</span>
+  <span class="footer-note">updated as things happen</span>
+</footer>
+
+<style>
+  .topic-card.active-card { border-color: var(--border2); background: var(--bg2); }
+</style>
+
+<script>
+  /*
+  ═══════════════════════════════
+    ADD POSTS HERE
+    topics: array of strings matching topic-card keys
+  ═══════════════════════════════
+  */
+  const POSTS = [
+    /*
+    {
+      date: 'Apr 2026',
+      tag: 'writeup',
+      title: 'Your Post Title Here',
+      url: '#',
+      topics: ['idor', 'writeup']
+    },
+    */
+  ];
+
+  let activeFilter = null;
+
+  function countFor(topic) {
+    return POSTS.filter(p => p.topics && p.topics.includes(topic)).length;
+  }
+
+  function updateCounts() {
+    ['idor','ssrf','xss','logic','auth','graphql','recon','ai','video','writeup'].forEach(t => {
+      const el = document.getElementById('count-' + t);
+      if (el) {
+        const n = countFor(t);
+        const unit = t === 'video' ? 'video' : t === 'writeup' ? 'writeup' : 'post';
+        el.textContent = n + ' ' + unit + (n !== 1 ? 's' : '');
+      }
+    });
+  }
+
+  function render(filter) {
+    const list = document.getElementById('post-list');
+    const empty = document.getElementById('empty-state');
+    const label = document.getElementById('filter-label');
+    const filtered = filter ? POSTS.filter(p => p.topics && p.topics.includes(filter)) : POSTS;
+
+    list.innerHTML = '';
+
+    if (filtered.length === 0) {
+      empty.style.display = 'block';
+    } else {
+      empty.style.display = 'none';
+      filtered.forEach(p => {
+        list.innerHTML += `
+          <a href="${p.url}" class="post-item">
+            <span class="post-date">${p.date}</span>
+            <span class="post-tag">${p.tag}</span>
+            <span class="post-title">${p.title}</span>
+          </a>`;
+      });
+    }
+
+    if (filter) {
+      label.style.display = 'block';
+      document.getElementById('active-topic').textContent = filter;
+    } else {
+      label.style.display = 'none';
+    }
+  }
+
+  function filterTopic(topic) {
+    document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('active-card'));
+    if (activeFilter === topic) {
+      activeFilter = null;
+    } else {
+      activeFilter = topic;
+      event.currentTarget.classList.add('active-card');
+    }
+    render(activeFilter);
+  }
+
+  function clearFilter() {
+    activeFilter = null;
+    document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('active-card'));
+    render(null);
+  }
+
+  updateCounts();
+  render(null);
+</script>
+
+</body>
+</html>
