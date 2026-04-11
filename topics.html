@@ -102,23 +102,26 @@ permalink: /topics/
   </div>
 
   <div class="post-list" id="post-list"></div>
-  <div class="empty"     id="empty-state">no posts yet — working on it.</div>
+  <div class="empty" id="empty-state" style="display:none;">no posts yet — working on it.</div>
 
 </main>
 
 <script>
-  window.POSTS = [
-    {% assign all_public = site.posts | where: "visibility", "public" %}
-    {% for post in all_public %}
-    {
-      date:   "{{ post.date | date: '%b %Y' }}",
-      tag:    "{{ post.tag | default: 'note' }}",
-      title:  {{ post.title | jsonify }},
-      desc:   {{ post.description | default: '' | jsonify }},
-      url:    "{{ post.url | relative_url }}",
-      topics: {{ post.topics | default: empty_array | jsonify }}
-    }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ];
+window.POSTS = [
+  {% assign all_public = site.posts | where: "visibility", "public" %}
+  {% for post in all_public %}
+  {
+    "url":     "{{ post.url | relative_url }}",
+    "title":   {{ post.title | jsonify }},
+    "tag":     {{ post.tag | default: "note" | jsonify }},
+    "desc":    {{ post.description | default: "" | jsonify }},
+    "date":    "{{ post.date | date: '%b %Y' }}",
+    "isoDate": "{{ post.date | date: '%Y-%m-%d' }}",
+    "pinned":  {{ post.pinned | default: false }},
+    "likes":   {{ post.likes | default: 0 }},
+    "topics":  {{ post.topics | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+];
 </script>
 <script src="{{ '/assets/js/topics.js' | relative_url }}"></script>

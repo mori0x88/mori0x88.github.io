@@ -1,9 +1,9 @@
 # ═══════════════════════════════════════════════════════
 # Bounty Log — add a new block under "entries:" for each bounty
-# The about page totals and progress bar update automatically.
+# The about page shows max 3 (pinned first, then recent).
 #
 # Fields:
-#   id:        unique ID — use "001", "002", "003", etc.
+#   id:        unique ID for direct linking → /about/#bounty-001
 #   date:      "Mon YYYY"  e.g. "Apr 2026"
 #   title:     short description of the bug
 #   amount:    dollar amount as a number (no $ sign)
@@ -11,7 +11,8 @@
 #   platform:  hackerone | bugcrowd | intigriti | private
 #   program:   program name (optional)
 #   notes:     one-line note (optional)
-#   writeup:   path to your writeup post (optional) e.g. /posts/idor-user-profile/
+#   writeup:   path to your writeup post (optional)
+#   pinned:    true/false — pinned bounties always show on about
 # ═══════════════════════════════════════════════════════
 
 entries:
@@ -24,10 +25,11 @@ entries:
     program: "Private Program"
     notes: "Unauthenticated access to private user data via predictable integer IDs"
     writeup: "/posts/idor-user-profile/"
+    pinned: true
 
 # ── To add a new bounty, copy the block below and fill it in ──
 #  - id: "002"
-#    date: "Apr 2026"
+#    date: "May 2026"
 #    title: "Your bug title here"
 #    amount: 0
 #    severity: medium
@@ -35,3 +37,4 @@ entries:
 #    program: "Program Name"
 #    notes: "Short note"
 #    writeup: ""
+#    pinned: false

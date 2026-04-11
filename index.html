@@ -13,7 +13,7 @@ title: Posts
   </p>
 
   <!-- TAG FILTERS -->
-  <div style="display:flex;gap:8px;margin:32px 0 40px;flex-wrap:wrap;">
+  <div class="post-filters">
     <a href="{{ '/' | relative_url }}"                       class="filter-btn {% unless page.tag_filter %}active{% endunless %}">All</a>
     <a href="{{ '/?filter=writeup' | relative_url }}"        class="filter-btn {% if page.tag_filter == 'writeup' %}active{% endif %}">Writeups</a>
     <a href="{{ '/?filter=video' | relative_url }}"          class="filter-btn {% if page.tag_filter == 'video' %}active{% endif %}">Videos</a>
@@ -34,11 +34,11 @@ title: Posts
   {% if pinned_post != "" %}
   <div style="margin-bottom: 12px;">
     <div class="sec-title">// pinned</div>
-    <a href="{{ pinned_post.url | relative_url }}" class="post-item" style="border:1px solid var(--border);border-radius:4px;padding:16px;">
+    <a href="{{ pinned_post.url | relative_url }}" class="post-item post-item--pinned">
       <span class="post-date">{{ pinned_post.date | date: '%b %Y' }}</span>
       <span class="post-tag">{{ pinned_post.tag | default: 'note' }}</span>
       <div class="post-meta-row">
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <div class="post-title-row">
           <span class="post-title">{{ pinned_post.title }}</span>
           <span class="pin-badge">pinned</span>
         </div>
@@ -46,9 +46,9 @@ title: Posts
           <span class="post-desc">{{ pinned_post.description }}</span>
         {% endif %}
         {% if pinned_post.topics %}
-        <div style="display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;">
+        <div class="post-topic-row">
           {% for topic in pinned_post.topics %}
-            <span class="post-tag" style="font-size:8px;">{{ topic }}</span>
+            <span class="post-tag post-tag--topic">{{ topic }}</span>
           {% endfor %}
         </div>
         {% endif %}
@@ -58,11 +58,15 @@ title: Posts
   <div class="rule"></div>
   {% endif %}
 
-  <!-- RECENT POSTS (up to 10, skip pinned) -->
+  <!-- RECENT POSTS (up to 10, skip pinned and journey) -->
+  <div style="margin-bottom: 12px; margin-top: 24px;">
+    <div class="sec-title">// recent</div>
+  </div>
   <div class="post-list" id="post-list">
     {% assign count = 0 %}
     {% for post in pub %}
       {% if post.pinned == true %}{% continue %}{% endif %}
+      {% if post.topics contains 'journey' %}{% continue %}{% endif %}
       {% if count >= 10 %}{% break %}{% endif %}
       {% assign count = count | plus: 1 %}
       <a href="{{ post.url | relative_url }}" class="post-item" data-tag="{{ post.tag }}">

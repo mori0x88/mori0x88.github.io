@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-04-12T01:39:03+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">mori</title><subtitle>bug hunter | pentester</subtitle><entry><title type="html">SSRF via PDF Export Feature — Draft</title><link href="http://localhost:4000/posts/ssrf-pdf-export-draft/" rel="alternate" type="text/html" title="SSRF via PDF Export Feature — Draft" /><published>2026-04-06T00:00:00+02:00</published><updated>2026-04-06T00:00:00+02:00</updated><id>http://localhost:4000/posts/ssrf-pdf-export-draft</id><content type="html" xml:base="http://localhost:4000/posts/ssrf-pdf-export-draft/"><![CDATA[<h2 id="draft--not-yet-published">Draft — Not Yet Published</h2>
+
+<p>This post is still being written. It will be published once I confirm the program’s disclosure policy allows it.</p>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<p>Found an SSRF in a PDF export feature. The endpoint accepted arbitrary URLs as the “source” parameter for the PDF generator. Classic case.</p>
+
+<h2 id="the-finding">The Finding</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /api/export/pdf HTTP/1.1
+Content-Type: application/json
+
+{
+  "source_url": "http://169.254.169.254/latest/meta-data/"
+}
+</code></pre></div></div>
+
+<p>Response included AWS metadata. Not great.</p>
+
+<h2 id="more-notes-here">More notes here…</h2>
+
+<p>Still writing this up properly. Need to:</p>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Get disclosure approval</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Clean up the PoC</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Add timeline table</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Check if full SSRF or blind</li>
+</ul>]]></content><author><name></name></author><category term="writeup" /><summary type="html"><![CDATA[Server-Side Request Forgery through a PDF generation endpoint. Still drafting — checking disclosure rules.]]></summary></entry><entry><title type="html">How I Find IDOR Bugs — Full Walkthrough</title><link href="http://localhost:4000/posts/how-i-find-idor-bugs-video/" rel="alternate" type="text/html" title="How I Find IDOR Bugs — Full Walkthrough" /><published>2026-04-05T00:00:00+02:00</published><updated>2026-04-05T00:00:00+02:00</updated><id>http://localhost:4000/posts/how-i-find-idor-bugs-video</id><content type="html" xml:base="http://localhost:4000/posts/how-i-find-idor-bugs-video/"><![CDATA[<h2 id="watch-the-video">Watch the Video</h2>
+
+<p><em>[Video embed would go here — YouTube, etc.]</em></p>
+
+<hr />
+
+<h2 id="whats-covered">What’s Covered</h2>
+
+<p>In this video I walk through my full IDOR hunting process from recon to report:</p>
+
+<ol>
+  <li><strong>Finding the API surface</strong> — how I map endpoints quickly</li>
+  <li><strong>Identifying object references</strong> — IDs, UUIDs, hashes</li>
+  <li><strong>Building a test matrix</strong> — horizontal vs vertical IDOR</li>
+  <li><strong>Bypasses</strong> — encoded IDs, UUID v4, indirect references</li>
+  <li><strong>Writing the report</strong> — what triagers actually want to see</li>
+</ol>
+
+<hr />
+
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+<ul>
+  <li>Always compare what <strong>you can see</strong> vs what <strong>you should be able to see</strong></li>
+  <li>Mobile APIs are often less hardened than web APIs</li>
+  <li>UUID doesn’t mean safe — check if the server validates ownership</li>
+  <li>Horizontal IDOR (same role, different user) is more common than vertical</li>
+</ul>
+
+<hr />
+
+<p><em>More videos coming as the 1200-hour grind continues.</em></p>]]></content><author><name></name></author><category term="video" /><summary type="html"><![CDATA[Step-by-step video walkthrough of my IDOR hunting methodology on live programs.]]></summary></entry><entry><title type="html">Week Two — shit</title><link href="http://localhost:4000/posts/test/" rel="alternate" type="text/html" title="Week Two — shit" /><published>2026-04-04T00:00:00+02:00</published><updated>2026-04-04T00:00:00+02:00</updated><id>http://localhost:4000/posts/test</id><content type="html" xml:base="http://localhost:4000/posts/test/"><![CDATA[<h2 id="what-i-did">What I did</h2>
+
+<p>Picked a public VDP on HackerOne. Spent four hours doing recon using what I’d read about: subfinder, httpx, gau, manual JS review.</p>
+
+<p>Found 200+ subdomains. Most were dead. About 30 were live and interesting. Spent the rest of the session going through them manually.</p>]]></content><author><name></name></author><category term="notes" /><summary type="html"><![CDATA[shit program for the first time.]]></summary></entry><entry><title type="html">IDOR on User Profile Endpoint — HackerOne</title><link href="http://localhost:4000/posts/idor-user-profile/" rel="alternate" type="text/html" title="IDOR on User Profile Endpoint — HackerOne" /><published>2026-04-01T00:00:00+02:00</published><updated>2026-04-01T00:00:00+02:00</updated><id>http://localhost:4000/posts/idor-user-profile</id><content type="html" xml:base="http://localhost:4000/posts/idor-user-profile/"><![CDATA[<h2 id="overview">Overview</h2>
+
+<p>This writeup covers an Insecure Direct Object Reference (IDOR) vulnerability I found on a private program via HackerOne. The bug allowed any unauthenticated user to access private profile data by incrementing an integer ID in the API path.</p>
+
+<blockquote>
+  <p><strong>Bounty:</strong> $500 · Severity: Medium · Platform: HackerOne</p>
+</blockquote>
+
+<hr />
+
+<h2 id="recon">Recon</h2>
+
+<p>Started with standard recon: subdomain enumeration, crawling the JS bundles, mapping the API surface. Noticed the mobile API at <code class="language-plaintext highlighter-rouge">api.example.com/v2/</code> was chatty and returned more data than the web version.</p>
+
+<h2 id="the-bug">The Bug</h2>
+
+<p>While browsing my own profile, I captured the following request:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /v2/users/84312/profile HTTP/1.1
+Host: api.example.com
+Authorization: Bearer &lt;my_token&gt;
+</code></pre></div></div>
+
+<p>The response returned my full profile object including email, phone, and private settings. Standard stuff. But then I noticed — what if I just changed the ID?</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /v2/users/84311/profile HTTP/1.1
+Host: api.example.com
+Authorization: Bearer &lt;my_token&gt;
+</code></pre></div></div>
+
+<p>Full profile data for user 84311. No ownership check. No authorization. Every user’s private data was just… there.</p>
+
+<h2 id="impact">Impact</h2>
+
+<ul>
+  <li>Full name, email address, phone number of any user</li>
+  <li>Private account settings</li>
+  <li>Enumerable via sequential IDs starting at ~10000</li>
+</ul>
+
+<h2 id="timeline">Timeline</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Event</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Apr 1, 2026</td>
+      <td>Reported via HackerOne</td>
+    </tr>
+    <tr>
+      <td>Apr 3, 2026</td>
+      <td>Triaged as Medium</td>
+    </tr>
+    <tr>
+      <td>Apr 5, 2026</td>
+      <td>Bounty awarded: $500</td>
+    </tr>
+    <tr>
+      <td>Apr 7, 2026</td>
+      <td>Fixed in production</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="remediation">Remediation</h2>
+
+<p>The fix was straightforward — validate that the authenticated user’s ID matches the requested resource ID before returning data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Before (vulnerable)
+</span><span class="k">def</span> <span class="nf">get_profile</span><span class="p">(</span><span class="n">user_id</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">db</span><span class="p">.</span><span class="nf">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+
+<span class="c1"># After (fixed)
+</span><span class="k">def</span> <span class="nf">get_profile</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">requesting_user_id</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">user_id</span> <span class="o">!=</span> <span class="n">requesting_user_id</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="nc">Forbidden</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">db</span><span class="p">.</span><span class="nf">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<p><em>Filed under IDOR, first steps. More to come.</em></p>]]></content><author><name></name></author><category term="writeup" /><summary type="html"><![CDATA[Classic IDOR via predictable integer IDs exposed profile data of any user without authentication.]]></summary></entry><entry><title type="html">Week Two — First Real Recon Session</title><link href="http://localhost:4000/posts/week-two-first-recon-session/" rel="alternate" type="text/html" title="Week Two — First Real Recon Session" /><published>2026-03-31T00:00:00+02:00</published><updated>2026-03-31T00:00:00+02:00</updated><id>http://localhost:4000/posts/week-two-first-recon-session</id><content type="html" xml:base="http://localhost:4000/posts/week-two-first-recon-session/"><![CDATA[<h2 id="what-i-did">What I did</h2>
+
+<p>Picked a public VDP on HackerOne. Spent four hours doing recon using what I’d read about: subfinder, httpx, gau, manual JS review.</p>
+
+<p>Found 200+ subdomains. Most were dead. About 30 were live and interesting. Spent the rest of the session going through them manually.</p>
+
+<h2 id="what-i-found">What I found</h2>
+
+<p>Nothing reportable. A few interesting endpoints that led nowhere. One staging server with verbose error messages — not a vulnerability in itself, just noise.</p>
+
+<p>This is the part nobody talks about. Most sessions end with nothing.</p>
+
+<h2 id="what-i-learned">What I learned</h2>
+
+<ul>
+  <li>The recon tools are straightforward. The judgment of <em>what to investigate</em> is not.</li>
+  <li>Verbose errors are everywhere. The question is always: does this leak something useful to an attacker?</li>
+  <li>Staging servers often have weaker access controls — worth returning to.</li>
+</ul>
+
+<h2 id="hours-logged">Hours logged</h2>
+
+<p>Session: 4 hrs · Running total: ~28 hrs</p>
+
+<hr />
+
+<p><em>Nothing to report yet. That’s fine. The practice is the point right now.</em></p>]]></content><author><name></name></author><category term="notes" /><summary type="html"><![CDATA[What actually happens when you sit down and try to recon a live program for the first time.]]></summary></entry><entry><title type="html">Recon Methodology Notes — 2026</title><link href="http://localhost:4000/posts/recon-methodology-notes/" rel="alternate" type="text/html" title="Recon Methodology Notes — 2026" /><published>2026-03-28T00:00:00+02:00</published><updated>2026-03-28T00:00:00+02:00</updated><id>http://localhost:4000/posts/recon-methodology-notes</id><content type="html" xml:base="http://localhost:4000/posts/recon-methodology-notes/"><![CDATA[<h2 id="my-current-recon-stack">My Current Recon Stack</h2>
+
+<p>These are personal notes, not a tutorial. Sharing the link with a few people from the community but keeping it off the main feed.</p>
+
+<h3 id="subdomain-enumeration">Subdomain Enumeration</h3>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">subfinder -d target.com -o subs.txt</code></li>
+  <li><code class="language-plaintext highlighter-rouge">amass enum -passive -d target.com &gt;&gt; subs.txt</code></li>
+  <li><code class="language-plaintext highlighter-rouge">httpx -l subs.txt -o live.txt</code></li>
+</ol>
+
+<h3 id="js-analysis">JS Analysis</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gau</code> for historical URLs</li>
+  <li><code class="language-plaintext highlighter-rouge">LinkFinder</code> for endpoints in JS</li>
+  <li>Manual review of webpack bundles</li>
+</ul>
+
+<h3 id="api-discovery">API Discovery</h3>
+
+<ul>
+  <li>Check <code class="language-plaintext highlighter-rouge">/api/v1/</code>, <code class="language-plaintext highlighter-rouge">/api/v2/</code>, <code class="language-plaintext highlighter-rouge">/graphql</code>, <code class="language-plaintext highlighter-rouge">/swagger.json</code></li>
+  <li>Mobile apps — decompile APK with <code class="language-plaintext highlighter-rouge">jadx</code></li>
+  <li>Compare mobile API vs web API surface</li>
+</ul>
+
+<h3 id="my-current-toolbox">My Current Toolbox</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Burp Suite Pro</td>
+      <td>Manual testing</td>
+    </tr>
+    <tr>
+      <td>subfinder</td>
+      <td>Subdomain enum</td>
+    </tr>
+    <tr>
+      <td>httpx</td>
+      <td>Probing live hosts</td>
+    </tr>
+    <tr>
+      <td>nuclei</td>
+      <td>Automated scanning</td>
+    </tr>
+    <tr>
+      <td>amass</td>
+      <td>Passive recon</td>
+    </tr>
+    <tr>
+      <td>ffuf</td>
+      <td>Fuzzing</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p><em>Updated as my methodology evolves. Last update: Apr 2026.</em></p>]]></content><author><name></name></author><category term="notes" /><summary type="html"><![CDATA[Personal recon checklist and tool stack. Hidden — shareable by link but not listed publicly.]]></summary></entry><entry><title type="html">Day One — Starting From Zero</title><link href="http://localhost:4000/posts/day-one-starting-from-zero/" rel="alternate" type="text/html" title="Day One — Starting From Zero" /><published>2026-03-20T00:00:00+02:00</published><updated>2026-03-20T00:00:00+02:00</updated><id>http://localhost:4000/posts/day-one-starting-from-zero</id><content type="html" xml:base="http://localhost:4000/posts/day-one-starting-from-zero/"><![CDATA[<h2 id="why-this-exists">Why this exists</h2>
+
+<p>I’m starting a bug bounty journey from absolute zero. No certifications. No prior CVEs. No professional security experience. Just a deliberate decision to grind through it publicly and document everything honestly.</p>
+
+<p>This page exists because I couldn’t find many resources written by people at day zero — most content is either beginner-friendly tutorials or advanced writeups from people who already made it. I want to fill that gap for whoever comes after me.</p>
+
+<h2 id="the-goal">The goal</h2>
+
+<p>$100,000 in total bounties. Full-time bug hunting. That’s the destination.</p>
+
+<p>I have no idea how long it takes. I’m not going to fake it and pretend I do.</p>
+
+<h2 id="the-commitment">The commitment</h2>
+
+<p><strong>1,200 hours in 2026.</strong> That’s roughly 3–4 hours every single day. I’m logging it.</p>
+
+<p>The areas I’m starting with:</p>
+<ul>
+  <li>Web application security — IDOR, broken access control, logic bugs</li>
+  <li>Recon methodology — subdomain enumeration, JS analysis, API surface mapping</li>
+  <li>Manual testing — no scanner dependency</li>
+</ul>
+
+<p>AI red teaming is on the roadmap. That’s where I see the next wave of bounty opportunity.</p>
+
+<h2 id="how-ill-document-this">How I’ll document this</h2>
+
+<p>Every meaningful session gets a note. Every finding gets a writeup. Every milestone gets a post on the journey page. If I’m stuck for three weeks and making no progress, I’ll write about that too.</p>
+
+<p>No success theater.</p>
+
+<hr />
+
+<p><em>Next entry: setting up the environment and first program selection.</em></p>]]></content><author><name></name></author><category term="notes" /><summary type="html"><![CDATA[Why I'm doing this, what the plan is, and how I'm going to document every step of the way.]]></summary></entry></feed>

@@ -4,28 +4,31 @@ title: About
 permalink: /about/
 ---
 
-{% assign bounty_entries = site.data.bounties.entries | default: empty_array %}
-{% assign total_bounty   = 0 %}
-{% assign total_reports  = bounty_entries | size %}
-{% for entry in bounty_entries %}
-  {% assign total_bounty = total_bounty | plus: entry.amount %}
-{% endfor %}
+{% assign i              = site.data.info %}
+{% assign bounty_earned  = i.bounty_earned | default: 0 %}
+{% assign bounty_goal    = i.bounty_goal   | default: 100000 %}
+{% assign valid_reports  = i.valid_reports  | default: 0 %}
+{% assign pct = bounty_earned | times: 100.0 | divided_by: bounty_goal %}
+{% assign pct_display = pct | round: 2 %}
+{% assign pct_parts = pct_display | split: '.' %}
+{% assign pct_whole = pct_parts[0] | default: '0' %}
+{% assign pct_dec = pct_parts[1] | default: '00' %}
+{% if pct_dec == '' %}{% assign pct_dec = '00' %}{% endif %}
+{% if pct_dec.size == 1 %}{% assign pct_dec = pct_dec | append: '0' %}{% endif %}
+{% assign pct_display_fixed = pct_whole | append: '.' | append: pct_dec %}
 
-{% assign p             = site.data.progress %}
-{% assign bounty_target = p.bounty_target | default: 100000 %}
-{% assign bp            = total_bounty | times: 100 | divided_by: bounty_target %}
-{% assign hof_programs  = site.data.hof.programs | default: empty_array %}
+{% assign bounty_entries = site.data.bounties.entries | default: empty_array %}
 
 <main class="page">
 
   <p class="eyebrow">// about me</p>
   <h1 class="headline">mori</h1>
   <p style="font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:32px;letter-spacing:0.06em;">
-    security researcher · day zero · 1200 hrs in 2026
+    bug hunter | pentester
   </p>
 
   <div class="about-bio">
-    Starting from scratch — no bounties, no certifications, no experience on paper.
+    Starting from scratch — {{ site.data.info.bounties }} bounties, no certifications, no experience on paper.
     This page tracks the journey honestly. Focused on web security and manual testing:
     logic bugs, broken access control, IDOR. AI red teaming is next.
     <br><br>
@@ -34,54 +37,35 @@ permalink: /about/
     <a href="{{ '/journey/' | relative_url }}" style="color:var(--text);text-decoration:underline;text-underline-offset:3px;">journey page</a>.
     <br><br>
     Come back later and watch the numbers move.
+    <br><br>
+    Outside security: anime, manga, gaming.
   </div>
 
   <div class="rule"></div>
 
-  <div class="two-col">
-    <div>
-
-      <div class="sec-title">// bounty goal</div>
-      <div class="bounty-block">
-        <div class="bounty-amount">${{ total_bounty | default: 0 }}</div>
-        <div class="bounty-target">goal: ${{ bounty_target }}</div>
-        <div class="bounty-track">
-          <div class="bounty-fill" style="width:{{ bp }}%"></div>
-        </div>
-        <div class="bounty-meta">
-          {{ bp }}% &nbsp;·&nbsp;
-          {{ total_reports }} valid report{% if total_reports != 1 %}s{% endif %}
-        </div>
-      </div>
-
-      <div class="sec-title">// certifications</div>
-
-      {% assign cert_keys  = "oswe,oscp,osai" | split: "," %}
-      {% assign cert_names = "OSWE,OSCP,OSAI"  | split: "," %}
-      {% for key in cert_keys %}
-        {% assign idx = forloop.index0 %}
-        {% assign val = p.certs[key] | default: 0 %}
-        <div class="bar-group">
-          <div class="bar-head">
-            <span class="bar-name">{{ cert_names[idx] }}</span>
-            <span class="bar-pct">{{ val }}%</span>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill" style="width:{{ val }}%"></div>
-          </div>
-        </div>
-      {% endfor %}
-
+  <div class="sec-title" id="bounty-goal">// bounty goal</div>
+  <div class="bounty-block">
+    <div class="bounty-amount">${{ bounty_earned }}</div>
+    <div class="bounty-target">goal: ${{ bounty_goal }}</div>
+    <div class="bounty-meta">
+      {{ pct_display_fixed }}% &nbsp;·&nbsp;
+      {{ valid_reports }} valid report{% if valid_reports != 1 %}s{% endif %}
     </div>
+    <div class="bounty-track">
+      <div class="bounty-fill" style="width:{{ pct }}%"></div>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="two-col two-col--divided">
     <div>
-
-      <div class="sec-title">// skills in progress</div>
-
-      {% assign skill_keys   = "web,code,recon,ai,yt"                                                         | split: "," %}
-      {% assign skill_names  = "Web security,Source code review,Recon & automation,AI red teaming,Content"    | split: "," %}
+      <div class="sec-title" id="skills">// skills in progress</div>
+      {% assign skill_keys  = "web,code,recon,ai,yt" | split: "," %}
+      {% assign skill_names = "Web security,Source code review,Recon & automation,AI red teaming,Content" | split: "," %}
       {% for key in skill_keys %}
         {% assign idx = forloop.index0 %}
-        {% assign val = p.skills[key] | default: 0 %}
+        {% assign val = i.skills[key] | default: 0 %}
         <div class="bar-group">
           <div class="bar-head">
             <span class="bar-name">{{ skill_names[idx] }}</span>
@@ -92,89 +76,25 @@ permalink: /about/
           </div>
         </div>
       {% endfor %}
-
-      <div style="height:32px"></div>
-      <div class="sec-title">// goals</div>
-
-      {% assign goal_keys  = "bounty1,tenk,hundredk,oswe,youtube,fulltime" | split: "," %}
-      {% assign goal_names = "First valid bounty,$10,000 total,$100,000 total,OSWE certified,YouTube launched,Full-time hunting" | split: "," %}
-      {% assign goal_notes = "not yet,in progress,the big one,planned,one day,the end goal"                   | split: "," %}
-      {% assign goal_done  = "done,reached,reached,certified,launched,achieved"                               | split: "," %}
-      {% assign goal_ids   = "bounty1,10k,100k,oswe,yt,ft"                                                    | split: "," %}
-
-      {% for key in goal_keys %}
-        {% assign idx    = forloop.index0 %}
-        {% assign is_done = p.goals[key] %}
-        <div class="goal-item" id="goal-{{ goal_ids[idx] }}">
-          <div class="goal-dot{% if is_done %} done{% endif %}"></div>
-          <div>
-            <div class="goal-name">{{ goal_names[idx] }}</div>
-            <div class="goal-note">
-              {% if is_done %}{{ goal_done[idx] }}{% else %}{{ goal_notes[idx] }}{% endif %}
-            </div>
+    </div>
+    <div>
+      <div class="sec-title" id="certifications">// certifications</div>
+      {% assign cert_keys  = "oswe,oscp,osai" | split: "," %}
+      {% assign cert_names = "OSWE,OSCP,OSAI" | split: "," %}
+      {% for key in cert_keys %}
+        {% assign idx = forloop.index0 %}
+        {% assign val = i.certs[key] | default: 0 %}
+        <div class="bar-group">
+          <div class="bar-head">
+            <span class="bar-name">{{ cert_names[idx] }}</span>
+            <span class="bar-pct">{{ val }}%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:{{ val }}%"></div>
           </div>
         </div>
       {% endfor %}
-
     </div>
-  </div>
-
-  <div class="rule"></div>
-
-  <div class="sec-title">// hall of fame &amp; active programs</div>
-  <p style="font-size:14px;color:var(--text3);margin-bottom:24px;max-width:520px;line-height:1.7;">
-    Programs I'm actively hunting or have been recognized by.
-    Vulnerability counts update as findings are confirmed.
-  </p>
-
-  <div class="hof-grid">
-    {% for prog in hof_programs %}
-      <div class="hof-card">
-
-        <span class="hof-status {{ prog.status }}">{{ prog.status }}</span>
-
-        <div class="hof-card-header">
-          <div class="hof-logo">{{ prog.abbr }}</div>
-          <div>
-            <div class="hof-company">{{ prog.company }}</div>
-            <div class="hof-program">{{ prog.program }} · {{ prog.platform }}</div>
-          </div>
-        </div>
-
-        {% assign total_vulns = 0 %}
-        {% for v in prog.vulns %}{% assign total_vulns = total_vulns | plus: v.count %}{% endfor %}
-
-        <div class="hof-stats">
-          <div class="hof-stat">
-            <div class="hof-stat-num">{{ total_vulns }}</div>
-            <div class="hof-stat-label">vulns found</div>
-          </div>
-          {% if prog.recognized %}
-          <div class="hof-stat">
-            <div class="hof-stat-num">✓</div>
-            <div class="hof-stat-label">hof listed</div>
-          </div>
-          {% endif %}
-        </div>
-
-        {% if prog.vulns and prog.vulns.size > 0 %}
-          <div class="hof-vulns">
-            {% for v in prog.vulns %}
-              {% if v.count > 0 %}
-                <span class="bounty-severity sev-{{ v.sev }}">{{ v.count }} {{ v.sev }}</span>
-              {% else %}
-                <span class="bounty-severity" style="background:var(--bg2);color:var(--text4);border:0.5px solid var(--border);">{{ v.sev }} · hunting</span>
-              {% endif %}
-            {% endfor %}
-          </div>
-        {% endif %}
-
-        {% if prog.notes %}
-          <div style="font-size:12px;color:var(--text3);margin-top:12px;line-height:1.6;">{{ prog.notes }}</div>
-        {% endif %}
-
-      </div>
-    {% endfor %}
   </div>
 
   <div class="rule"></div>
@@ -183,8 +103,24 @@ permalink: /about/
     <div class="sec-title">// bounty log</div>
 
     {% if bounty_entries and bounty_entries.size > 0 %}
+
+      {% comment %} Build display list: pinned first, then recent, max 3 {% endcomment %}
+      {% assign pinned  = "" | split: "" %}
+      {% assign others  = "" | split: "" %}
       {% for entry in bounty_entries %}
+        {% if entry.pinned %}
+          {% assign pinned = pinned | push: entry %}
+        {% else %}
+          {% assign others = others | push: entry %}
+        {% endif %}
+      {% endfor %}
+      {% assign display_list = pinned | concat: others %}
+
+      {% assign shown = 0 %}
+      {% for entry in display_list %}
+        {% if shown >= 3 %}{% break %}{% endif %}
         <div class="bounty-log-item" id="bounty-{{ entry.id }}">
+          {% if entry.pinned %}<span class="pin-badge">pinned</span>{% endif %}
           <span class="bounty-severity sev-{{ entry.severity }}">{{ entry.severity }}</span>
           <div class="bounty-log-amount">${{ entry.amount }}</div>
           <div style="flex:1;">
@@ -201,7 +137,13 @@ permalink: /about/
             {% endif %}
           </div>
         </div>
+        {% assign shown = shown | plus: 1 %}
       {% endfor %}
+
+      {% if bounty_entries.size > 3 %}
+        <a href="{{ '/bounties/' | relative_url }}" style="display:block;font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:16px;transition:color 0.15s;">view all {{ bounty_entries.size }} bounties →</a>
+      {% endif %}
+
     {% else %}
       <div class="empty" style="padding:20px 0;">
         no bounties logged yet — add entries to _data/bounties.yml
@@ -209,10 +151,6 @@ permalink: /about/
     {% endif %}
   </div>
 
-  <div class="rule"></div>
 
-  <div style="font-size:14px;color:var(--text3);line-height:1.8;">
-    Outside security: anime, manga, gaming.
-  </div>
 
 </main>

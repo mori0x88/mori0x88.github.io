@@ -48,21 +48,9 @@ layout: default
     <span style="font-family:var(--mono);font-size:10px;color:var(--text4);">// like this post</span>
   </div>
 
-  <!-- COMMENTS -->
-  <div class="comments-section">
-    <div class="sec-title">// comments</div>
-    <div id="comments-list"></div>
-    <div class="comment-form">
-      <input  type="text" class="comment-input"    id="comment-name" placeholder="your name (optional)" />
-      <textarea           class="comment-textarea" id="comment-text" placeholder="add a comment..."></textarea>
-      <button class="btn-submit" onclick="submitComment()">submit comment</button>
-    </div>
-  </div>
-
 </main>
 
 <script>
   var POST_KEY = 'post_{{ page.slug | default: page.title | slugify }}';
-  var STATIC_COMMENT_COUNT = {{ page.comments.size | default: 0 }};
 </script>
 <script src="{{ '/assets/js/post.js' | relative_url }}"></script>
