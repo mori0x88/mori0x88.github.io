@@ -15,18 +15,6 @@
 #   pinned:    true/false — pinned bounties always show on about
 # ═══════════════════════════════════════════════════════
 
-entries:
-  - id: "001"
-    date: "Apr 2026"
-    title: "IDOR on user profile endpoint"
-    amount: 500
-    severity: medium
-    platform: hackerone
-    program: "Private Program"
-    notes: "Unauthenticated access to private user data via predictable integer IDs"
-    writeup: "/posts/idor-user-profile/"
-    pinned: true
-
 # ── To add a new bounty, copy the block below and fill it in ──
 #  - id: "002"
 #    date: "May 2026"

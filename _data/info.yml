@@ -4,23 +4,23 @@
 # ═══════════════════════════════════════════════════════
 
 # ── Bounty count (shown in bio text) ──
-bounties: 1
+bounties: 0
 
 # ── Bounty goal progress bar ──
-bounty_earned: 500       # total $ earned so far
+bounty_earned: 0       # total $ earned so far
 bounty_goal: 100000      # target $
-valid_reports: 1          # number of valid reports
+valid_reports: 0          # number of valid reports
 
 # ── Skills — 0 to 100 (progress bar %) ──
 skills:
-  web:   15    # Web security
-  code:  5     # Source code review
-  recon: 20    # Recon & automation
+  web:   0    # Web security
+  code:  0     # Source code review
+  recon: 0    # Recon & automation
   ai:    0     # AI red teaming
   yt:    0     # Content / YouTube
 
 # ── Certifications — 0 to 100 (study progress %) ──
 certs:
-  oswe: 20
+  oswe: 0
   oscp: 0
   osai: 0
