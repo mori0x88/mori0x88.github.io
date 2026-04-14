@@ -16,7 +16,7 @@
 <body>
 
 <nav>
-  <a href="{{ '/' | relative_url }}" class="nav-logo" style="visibility: hidden;">mori</a>
+  <a href="{{ '/' | relative_url }}" class="nav-logo" style="visibility: visible;">mori</a>
 
   <div class="nav-links">
     <a href="{{ '/' | relative_url }}"         {% if page.url == '/'            %}class="active"{% endif %}>posts</a>
@@ -87,7 +87,7 @@
 {{ content }}
 
 <footer>
-  <span class="footer-name">mori</span>
+    <span class="footer-name"><a href="https://github.com/mori0x88" style="font-weight: bold; text-decoration: underline;">mori0x88</a></span>
   <span class="footer-note">Built By <a href="https://github.com/saeeedhany" style="text-decoration: underline; font-weight: bold;">Saeed</a></span>
 </footer>
 
